@@ -1,27 +1,25 @@
-import React, { useState, useEffect } from 'react';
-import styles from './DataFetcher.module.css';
-import DataList from './DataList';
+import React, { useState, useEffect } from "react";
+import styles from "./DataFetcher.module.css";
+import DataList from "./DataList";
 
 const DataFetcher = () => {
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
-  const [resourceType, setResourceType] = useState('posts');
+  const [resourceType, setResourceType] = useState("posts");
   const [limit, setLimit] = useState(10);
 
   // API endpoints untuk berbagai resource types
   const API_ENDPOINTS = {
-    posts: 'https://jsonplaceholder.typicode.com/posts',
-    comments: 'https://jsonplaceholder.typicode.com/comments',
-    albums: 'https://jsonplaceholder.typicode.com/albums',
-    photos: 'https://jsonplaceholder.typicode.com/photos',
-    todos: 'https://jsonplaceholder.typicode.com/todos',
-    users: 'https://jsonplaceholder.typicode.com/users'
+    posts: "https://jsonplaceholder.typicode.com/posts",
+    comments: "https://jsonplaceholder.typicode.com/comments",
+    albums: "https://jsonplaceholder.typicode.com/albums",
+    photos: "https://jsonplaceholder.typicode.com/photos",
+    todos: "https://jsonplaceholder.typicode.com/todos",
+    users: "https://jsonplaceholder.typicode.com/users",
   };
 
-  // Fetch data dengan useEffect
   useEffect(() => {
-    // Abort controller untuk cancel request jika komponen unmount
     const abortController = new AbortController();
     const signal = abortController.signal;
 
@@ -30,52 +28,41 @@ const DataFetcher = () => {
       setError(null);
 
       try {
-        // Simulate network delay untuk demonstrasi loading
-        await new Promise(resolve => setTimeout(resolve, 1000));
-
+        await new Promise((resolve) => setTimeout(resolve, 1000));
         const response = await fetch(
           `${API_ENDPOINTS[resourceType]}?_limit=${limit}`,
-          { signal }
+          { signal },
         );
-
         if (!response.ok) {
           throw new Error(`HTTP error! status: ${response.status}`);
         }
-
         const result = await response.json();
         setData(result);
       } catch (err) {
-        if (err.name !== 'AbortError') {
+        if (err.name !== "AbortError") {
           setError(err.message);
-          console.error('Fetch error:', err);
+          console.error("Fetch error:", err);
         }
       } finally {
         setLoading(false);
       }
     };
-
     fetchData();
-
-    // Cleanup function untuk abort request
     return () => {
       abortController.abort();
     };
-  }, [resourceType, limit]); // Dependencies: run ketika resourceType atau limit berubah
+  }, [resourceType, limit]);
 
-  // Handle retry fetch
   const handleRetry = () => {
     setError(null);
-    // Trigger useEffect dengan mengubah state
-    setResourceType(prev => prev);
+    setResourceType((prev) => prev);
   };
 
-  // Handle resource type change
   const handleResourceChange = (e) => {
     setResourceType(e.target.value);
-    setData(null); // Clear data saat resource berubah
+    setData(null);
   };
 
-  // Handle limit change
   const handleLimitChange = (e) => {
     setLimit(parseInt(e.target.value));
   };
@@ -84,7 +71,6 @@ const DataFetcher = () => {
     <div className={styles.container}>
       <h1 className={styles.title}>Data Fetcher dengan useEffect</h1>
 
-      {/* Controls */}
       <div className={styles.controls}>
         <select
           value={resourceType}
@@ -121,16 +107,16 @@ const DataFetcher = () => {
         </button>
       </div>
 
-      {/* API Info */}
       <div className={styles.apiInfo}>
         <h3>🚀 API Endpoint:</h3>
         <code className={styles.apiUrl}>
           {API_ENDPOINTS[resourceType]}?_limit={limit}
         </code>
-        <p>Data akan di-fetch otomatis ketika resource type atau limit berubah</p>
+        <p>
+          Data akan di-fetch otomatis ketika resource type atau limit berubah
+        </p>
       </div>
 
-      {/* Loading State */}
       {loading && (
         <div className={styles.loadingState}>
           <div className={styles.loadingSpinner}></div>
@@ -139,7 +125,6 @@ const DataFetcher = () => {
         </div>
       )}
 
-      {/* Error State */}
       {error && (
         <div className={styles.errorState}>
           <h3>❌ Error Loading Data</h3>
@@ -150,7 +135,6 @@ const DataFetcher = () => {
         </div>
       )}
 
-      {/* Data Stats */}
       {data && !loading && (
         <div className={styles.stats}>
           <div className={styles.statCard}>
@@ -168,30 +152,38 @@ const DataFetcher = () => {
         </div>
       )}
 
-      {/* Data Display terintegrasi dengan DataList */}
       {data && !loading && (
-        <DataList
-          data={data}
-          resourceType={resourceType}
-          loading={loading}
-        />
+        <DataList data={data} resourceType={resourceType} loading={loading} />
       )}
 
-      {/* Debug Info */}
-      <div style={{
-        marginTop: '2rem',
-        padding: '1rem',
-        background: '#f8f9fa',
-        borderRadius: '8px',
-        fontSize: '0.9rem'
-      }}>
+      <div
+        style={{
+          marginTop: "2rem",
+          padding: "1rem",
+          background: "#f8f9fa",
+          borderRadius: "8px",
+          fontSize: "0.9rem",
+        }}
+      >
         <h4>🔍 useEffect Debug Info:</h4>
-        <p><strong>Dependencies:</strong> [resourceType, limit]</p>
-        <p><strong>Resource Type:</strong> {resourceType}</p>
-        <p><strong>Limit:</strong> {limit}</p>
-        <p><strong>Data Count:</strong> {data ? data.length : 0}</p>
-        <p><strong>Loading:</strong> {loading ? 'Yes' : 'No'}</p>
-        <p><strong>Error:</strong> {error ? 'Yes' : 'No'}</p>
+        <p>
+          <strong>Dependencies:</strong> [resourceType, limit]
+        </p>
+        <p>
+          <strong>Resource Type:</strong> {resourceType}
+        </p>
+        <p>
+          <strong>Limit:</strong> {limit}
+        </p>
+        <p>
+          <strong>Data Count:</strong> {data ? data.length : 0}
+        </p>
+        <p>
+          <strong>Loading:</strong> {loading ? "Yes" : "No"}
+        </p>
+        <p>
+          <strong>Error:</strong> {error ? "Yes" : "No"}
+        </p>
       </div>
     </div>
   );

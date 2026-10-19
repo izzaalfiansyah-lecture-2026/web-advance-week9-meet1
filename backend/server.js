@@ -1,8 +1,8 @@
-const express = require('express');
-const cors = require('cors');
+const express = require("express");
+const cors = require("cors");
 
 const app = express();
-const PORT = 5000;
+const PORT = 8880;
 
 // Middleware
 app.use(cors());
@@ -17,12 +17,12 @@ const products = [
   { id: 5, name: "Running Shoes", price: 800000, category: "Sports" },
   { id: 6, name: "Book", price: 150000, category: "Education" },
   { id: 7, name: "Water Bottle", price: 200000, category: "Home" },
-  { id: 8, name: "Backpack", price: 600000, category: "Fashion" }
+  { id: 8, name: "Backpack", price: 600000, category: "Fashion" },
 ];
 
 // Simple GET endpoint
-app.get('/api/products', (req, res) => {
-  console.log('📦 Fetching products...');
+app.get("/api/products", (req, res) => {
+  console.log("📦 Fetching products...");
 
   // Simulate delay like real API
   setTimeout(() => {
@@ -30,7 +30,7 @@ app.get('/api/products', (req, res) => {
       success: true,
       data: products,
       total: products.length,
-      message: "Products fetched successfully"
+      message: "Products fetched successfully",
     });
   }, 1000); // 1 second delay
 });
@@ -40,7 +40,7 @@ app.use((err, req, res, next) => {
   console.error(err);
   res.status(500).json({
     success: false,
-    error: 'Something went wrong!'
+    error: "Something went wrong!",
   });
 });
 
@@ -48,7 +48,7 @@ app.use((err, req, res, next) => {
 app.use((req, res) => {
   res.status(404).json({
     success: false,
-    error: 'Endpoint not found'
+    error: "Endpoint not found",
   });
 });
 

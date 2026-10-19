@@ -16,7 +16,7 @@ const ProductList = () => {
         setError(null);
 
         // Fetch data dari backend
-        const response = await fetch("http://localhost:5000/api/products");
+        const response = await fetch("http://localhost:8880/api/products");
 
         if (!response.ok) {
           throw new Error(`HTTP error! status: ${response.status}`);
