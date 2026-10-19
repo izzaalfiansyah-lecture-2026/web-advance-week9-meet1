@@ -1,23 +1,17 @@
-import logo from './logo.svg';
+import React from 'react';
+import ProductList from './components/ProductList';
 import './App.css';
 
 function App() {
   return (
     <div className="App">
       <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
+        <h1>🛍️ Simple Product Store</h1>
+        <p>Data dari Backend Node.js menggunakan useEffect</p>
       </header>
+      <main>
+        <ProductList />
+      </main>
     </div>
   );
 }
